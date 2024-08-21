@@ -1,6 +1,2 @@
-﻿
-var page = await Browser.GetPage("https://pt.wikipedia.org/wiki/Audi");
-var links = HTMLReader.GetWikipediaLinks(page);
-
-foreach(var link in links)
-    Console.WriteLine(link);
+﻿var result = await WikipediaFinder.Find("Michael_Jackson", "Sífilis");
+Console.WriteLine(result);

@@ -2,30 +2,43 @@ public static class WikipediaFinder
 {
     private static readonly string BaseURL = "https://pt.wikipedia.org/wiki/"; 
 
-    public static string Find(string start, string end)
+    public static async Task<string> Find(string start, string end)
     {
-        var queue = new Queue<Point>();
-        var closestMap = new Dictionary<Point, Point>();
+        var queue = new Queue<string>();
+        var pathMap = new Dictionary<string, string>();
+        var visited = new HashSet<string>();
 
-        queue.Enqueue(new Point(start));
+        queue.Enqueue(start);
 
         while(queue.Count > 0)
         {
             var current = queue.Dequeue();
-            if(current.Visited) continue;
-            current.Visited = true;
+            if(visited.Contains(current)) continue;
+            visited.Add(current);
 
-            if(current.Value == end) break;
+            if(current == end) break;
         
+            var page = await Browser.GetPage(BaseURL + current);
+            var connections = HTMLReader.GetWikipediaLinks(page);
+
+            foreach (var connection in connections)
+            {
+                if(visited.Contains(connection)) continue;
+                
+                if(!pathMap.ContainsKey(connection))
+                    pathMap.Add(connection, current);
+                queue.Enqueue(connection);
+            }
         }
 
-        return "";
-    }
-}
+        var path = end;
+        var iterator = pathMap[end];
+        while(iterator != start)
+        {
+            path = iterator + "=> " + path;
+            iterator = pathMap[iterator];
+        }
 
-public class Point(string value)
-{
-    public string Value = value;
-    public bool Visited = false;
-    public string[] Connections;
+        return $"{start} => {path}";
+    }
 }
