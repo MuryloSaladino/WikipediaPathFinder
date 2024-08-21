@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 
 public static class HTMLReader
 {
-    private static Regex anchorRegex = new("<a.*>");
+    private static Regex anchorRegex = new(@"<a\s+[^>]*href\s*=\s*['""][^'""]*['""][^>]*>(.*?)</a>");
 
     public static string[] GetLinks(string html)
     {
