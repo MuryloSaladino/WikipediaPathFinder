@@ -18,6 +18,8 @@ public static class WikipediaFinder
             if(current.Value == end) break;
         
         }
+
+        return "";
     }
 }
 

@@ -12,6 +12,7 @@ public static class HTMLReader
         return AnchorRegex
             .Matches(html.Substring(start, end))
             .Select(x => x.Value)
+            .Select(x => x[12..(x.Length-1)])
             .ToArray();
     }
 }
