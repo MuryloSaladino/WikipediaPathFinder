@@ -2,10 +2,13 @@ using System.Text.RegularExpressions;
 
 public static class HTMLReader
 {
-    private static Regex anchorRegex = new(@"<a\s+[^>]*href\s*=\s*['""][^'""]*['""][^>]*>(.*?)</a>");
+    private static readonly Regex AnchorRegex = new(@"<a\s+[^>]*href\s*=\s*['""][^'""]*['""][^>]*>(.*?)</a>");
 
     public static string[] GetLinks(string html)
     {
-        throw new NotImplementedException();
+        return AnchorRegex
+            .Matches(html)
+            .Select(x => x.Value)
+            .ToArray();
     }
 }
