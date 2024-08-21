@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 
 public static class HTMLReader
 {
-    private static readonly Regex AnchorRegex = new(@"<a\s+[^>]*href\s*=\s*['""][^'""]*['""][^>]*>");
+    private static readonly Regex AnchorRegex = new(@"href=""/wiki/[^""]*""");
 
     public static string[] GetWikipediaLinks(string html)
     {

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WikipediaPathFinder")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7334e4cddd15fe50a95223d96cbfd64614f0cdef")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a20c82c03a80b87a12dff1462d84a44cc8b75d3e")]
 [assembly: System.Reflection.AssemblyProductAttribute("WikipediaPathFinder")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WikipediaPathFinder")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
