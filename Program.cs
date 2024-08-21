@@ -1,2 +1,6 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿
+var page = await Browser.GetPage("https://pt.wikipedia.org/wiki/Audi");
+var links = HTMLReader.GetLinks(page);
+
+foreach(var link in links)
+    Console.WriteLine(link);

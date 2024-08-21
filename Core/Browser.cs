@@ -11,7 +11,7 @@ public static class Browser
         }
     );
 
-    private static async Task<string> GetPage(string link)
+    public static async Task<string> GetPage(string link)
     {
         var response = await Client.GetAsync(link);
         return await response.Content.ReadAsStringAsync();
