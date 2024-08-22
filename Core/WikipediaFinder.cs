@@ -15,6 +15,7 @@ public static class WikipediaFinder
             var current = queue.Dequeue();
             if(visited.Contains(current)) continue;
             visited.Add(current);
+            Console.WriteLine(current);
 
             if(current == end) break;
         
