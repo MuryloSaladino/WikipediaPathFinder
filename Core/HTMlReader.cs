@@ -10,8 +10,12 @@ public static partial class HTMLReader
 
     public static string[] GetWikipediaLinks(string html)
     {
+        int start = html.IndexOf("id=\"bodyContent\"");
+        int end = html.IndexOf("id=\"Ver_também\"");
+        if(end < 0) end = html.IndexOf("</main>");
+
         return AnchorRegex
-            .Matches(html)
+            .Matches(html[start..end])
             .Select(x => x.Value[12..(x.Value.Length-1)])
             .ToArray();
     }

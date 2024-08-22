@@ -12,31 +12,57 @@ public static class WikipediaFinder
         var queue = new Queue<string>();
         var pathMap = new Dictionary<string, string>();
         var visited = new HashSet<string>();
+        bool found = false;
 
-        queue.Enqueue(start);
+        var initialPage = await Browser.GetPage(BaseURL + start);
+        var initialConnections = HTMLReader.GetWikipediaLinks(initialPage);
+        for (int i = 0; i < initialConnections.Length; i++)
+            queue.Enqueue(initialConnections[i]);
 
-        while(queue.Count > 0)
-        {
-            var current = queue.Dequeue();
-            if(visited.Contains(current)) continue;
-            visited.Add(current);
-            Console.WriteLine(current);
-
-            if(current == end) break;
-        
-            var page = await Browser.GetPage(BaseURL + current);
-            var connections = HTMLReader.GetWikipediaLinks(page);
-
-            foreach (var connection in connections)
+        Parallel.For(0, 10, (index) => {
+            while(true)
             {
-                if(visited.Contains(connection)) continue;
-                if(char.IsDigit(connection[0])) continue;
+                string current;
                 
-                if(!pathMap.ContainsKey(connection))
-                    pathMap.Add(connection, current);
-                queue.Enqueue(connection);
+                lock(queue)
+                {
+                    if(found) 
+                    {
+                        break;
+                    }
+                    current = queue.Dequeue();
+                }
+                Console.WriteLine(current);
+                
+                lock(visited)
+                {
+                    if(visited.Contains(current)) continue;
+                    visited.Add(current);
+                }
+
+                if(end == current) 
+                {
+                    found = true;
+                }
+
+                var page = Browser.GetPage(BaseURL + current);
+                page.Wait();
+                var connections = HTMLReader.GetWikipediaLinks(page.Result);
+
+                foreach (var connection in connections)
+                {
+                    if(visited.Contains(connection)) continue;
+                    // if(!char.IsDigit(end[0]) && char.IsDigit(connection[0])) continue;
+                    
+                    lock(pathMap)
+                    {
+                        if(!pathMap.ContainsKey(connection))
+                            pathMap.Add(connection, current);
+                        queue.Enqueue(connection);
+                    }
+                }
             }
-        }
+        });
 
         var path = end;
         var iterator = pathMap[end];
