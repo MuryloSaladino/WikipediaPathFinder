@@ -1,9 +1,14 @@
+using System.Web;
+
 public static class WikipediaFinder
 {
     private static readonly string BaseURL = "https://pt.wikipedia.org/wiki/"; 
 
     public static async Task<string> Find(string start, string end)
     {
+        start = HttpUtility.UrlEncode(start);
+        end = HttpUtility.UrlEncode(end);
+
         var queue = new Queue<string>();
         var pathMap = new Dictionary<string, string>();
         var visited = new HashSet<string>();
