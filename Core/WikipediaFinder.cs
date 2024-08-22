@@ -30,6 +30,7 @@ public static class WikipediaFinder
             foreach (var connection in connections)
             {
                 if(visited.Contains(connection)) continue;
+                if(char.IsDigit(connection[0])) continue;
                 
                 if(!pathMap.ContainsKey(connection))
                     pathMap.Add(connection, current);
