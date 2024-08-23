@@ -13,6 +13,7 @@ public static partial class HTMLReader
         int start = html.IndexOf("id=\"bodyContent\"");
         int end = html.IndexOf("id=\"Ver_também\"");
         if(end < 0) end = html.IndexOf("</main>");
+        if(start < 0) start = html.IndexOf("<main");
 
         return AnchorRegex
             .Matches(html[start..end])
